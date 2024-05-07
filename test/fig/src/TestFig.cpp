@@ -1,4 +1,5 @@
 #include <csignal>
+#include <cstdlib>
 #include <fig/assert.hpp>
 #include <fig/debug.hpp>
 #include <fig/error.hpp>
@@ -8,6 +9,16 @@
 #include <algorithm>
 #include <vector>
 
+[[maybe_unused]]
+static void FigUnreach() {
+    FIG_UNREACH();
+}
+
+[[maybe_unused]]
+static void FigPanic() {
+    FIG_PANIC("Something wrong!");
+}
+
 static void FigAssert() {
     std::vector<int> vec1 = {1, 2, 3, 4, 5};
     std::vector<int> vec2 = {2, 5, 1, 3, 4};
@@ -16,32 +27,25 @@ static void FigAssert() {
     FIG_ASSERT(vec1 == vec2, "After Sorting, vec1 != vec2.");
 }
 
-static void FigPanic() {
-    auto defaultCerr = std::cerr.rdbuf();
-    std::cerr.rdbuf(nullptr);
-    std::signal(SIGABRT, []([[maybe_unused]]int e) { /* Empty */ });
-    FIG_PANIC("Something wrong!");
+static void FigError() {
+    std::signal(SIGABRT, []([[maybe_unused]] int e) { /* Empty */ });
+    FIG_ERROR("Something wrong!");
     std::signal(SIGABRT, SIG_DFL);
-    std::cerr.rdbuf(defaultCerr);
-}
-
-static void FigUnreach() {
-    auto defaultCerr = std::cerr.rdbuf();
-    std::cerr.rdbuf(nullptr);
-    std::signal(SIGABRT, []([[maybe_unused]]int e) { /* Empty */ });
-    FIG_UNREACH();
-    std::signal(SIGABRT, SIG_DFL);
-    std::cerr.rdbuf(defaultCerr);
 }
 
 static void FigDebug() {
-    FIG_DEBUG();
+#if defined(FIG_DEBUG_OFF_MODE)
+    return;
+#else
+    FIG_DEBUG(
+        return;);
+    FigPanic();
+#endif
 }
 
 int main() {
     FigDebug();
     FigAssert();
-    FigPanic();
-    FigUnreach();
+    FigError();
     return 0;
 }

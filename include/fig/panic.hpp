@@ -2,19 +2,18 @@
 #define FIG_PANIC_H
 
 #include <fig/detail.hpp>
-#include <csignal>
 
-#define FIG_PANIC(...)                         \
-    do {                                       \
-        figPrint("[FIG PANIC]");               \
-        figPrint("[File:", __FILE__, "]");     \
-        figPrint("[Function:", __func__, "]"); \
-        figPrint("[Line:", __LINE__, "]\n");   \
-        figPrint("PANIC: ");                   \
-        figPrint(__VA_ARGS__, "\n");           \
-        figPrintStackTrace();                  \
-        figFlush();                            \
-        std::raise(SIGABRT);                   \
+#define FIG_PANIC(...)                              \
+    do {                                            \
+        fig::figPrint("[FIG PANIC]");               \
+        fig::figPrint("[File:", __FILE__, "]");     \
+        fig::figPrint("[Function:", __func__, "]"); \
+        fig::figPrint("[Line:", __LINE__, "]\n");   \
+        fig::figPrint("PANIC: ");                   \
+        fig::figPrint(__VA_ARGS__, "\n");           \
+        fig::figPrintStackTrace();                  \
+        fig::figFlush();                            \
+        fig::figExit(-1);                           \
     } while(0)
 
 #endif
