@@ -1,18 +1,19 @@
-#ifndef FIG_UNREACHED_H
-#define FIG_UNREACHED_H
+#ifndef FIG_UNREACHED_HPP
+#define FIG_UNREACHED_HPP
 
-#include <fig/panic.hpp>
+#include "./detail/Utils.hpp"
+#include "./detail/WarningPrintStackTrace.hpp"
 
-#define FIG_UNREACH()                               \
-    do {                                            \
-        fig::figPrint("[FIG UNREACH]");             \
-        fig::figPrint("[File:", __FILE__, "]");     \
-        fig::figPrint("[Function:", __func__, "]"); \
-        fig::figPrint("[Line:", __LINE__, "]\n");   \
-        fig::figPrint("UNREACH: ");                 \
-        fig::figPrintStackTrace();                  \
-        fig::figFlush();                            \
-        fig::figExit(-1);                           \
+#define FIG_UNREACH()                                   \
+    do {                                                \
+        fig::WarningPrint("[FIG UNREACH]");             \
+        fig::WarningPrint("[File:", __FILE__, "]");     \
+        fig::WarningPrint("[Function:", __func__, "]"); \
+        fig::WarningPrint("[Line:", __LINE__, "]\n");   \
+        fig::WarningPrint("UNREACH: ");                 \
+        fig::WarningPrintStackTrace();                  \
+        fig::WarningFlush();                            \
+        fig::FigExit(-1);                               \
     } while(0)
 
 #endif

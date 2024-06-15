@@ -8,6 +8,5 @@ include_directories(
     ${PROJECT_SOURCE_DIR}/include
 )
 
-add_executable(fig-test  ${CMAKE_CURRENT_SOURCE_DIR}/src/TestFig.cpp )
-
-add_test(NAME fig-test  COMMAND fig-test )
+add_executable(fig-test ${CMAKE_CURRENT_SOURCE_DIR}/src/TestFig.cpp )
+add_test(NAME fig-test COMMAND fig-test )

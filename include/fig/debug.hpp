@@ -1,5 +1,5 @@
-#ifndef FIG_DEBUG_H
-#define FIG_DEBUG_H
+#ifndef FIG_DEBUG_HPP
+#define FIG_DEBUG_HPP
 
 #if defined(FIG_DEBUG_OFF_MODE)
 #define FIG_DEBUG(stmt)

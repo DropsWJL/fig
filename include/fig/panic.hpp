@@ -1,19 +1,20 @@
-#ifndef FIG_PANIC_H
-#define FIG_PANIC_H
+#ifndef FIG_PANIC_HPP
+#define FIG_PANIC_HPP
 
-#include <fig/detail.hpp>
+#include "./detail/Utils.hpp"
+#include "./detail/WarningPrintStackTrace.hpp"
 
-#define FIG_PANIC(...)                              \
-    do {                                            \
-        fig::figPrint("[FIG PANIC]");               \
-        fig::figPrint("[File:", __FILE__, "]");     \
-        fig::figPrint("[Function:", __func__, "]"); \
-        fig::figPrint("[Line:", __LINE__, "]\n");   \
-        fig::figPrint("PANIC: ");                   \
-        fig::figPrint(__VA_ARGS__, "\n");           \
-        fig::figPrintStackTrace();                  \
-        fig::figFlush();                            \
-        fig::figExit(-1);                           \
+#define FIG_PANIC(...)                                      \
+    do {                                                    \
+        fig::WarningPrint("[FIG PANIC]");                   \
+        fig::WarningPrint("[File:", __FILE__, "]");         \
+        fig::WarningPrint("[Function:", __func__, "]");     \
+        fig::WarningPrint("[Line:", __LINE__, "]\n");       \
+        fig::WarningPrint("PANIC: ");                       \
+        fig::WarningPrint(__VA_ARGS__ __VA_OPT__(, ) "\n"); \
+        fig::WarningPrintStackTrace();                      \
+        fig::WarningFlush();                                \
+        fig::FigExit(-1);                                   \
     } while(0)
 
 #endif
